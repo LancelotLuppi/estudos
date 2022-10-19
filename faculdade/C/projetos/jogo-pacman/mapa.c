@@ -1,6 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "mapa.h"
+
+void copiar_mapa(Mapa* destino, Mapa* origem) {
+    destino->linhas = origem->linhas;
+    destino->colunas = origem->colunas;
+
+    alocar_memoria_mapa(destino);
+
+    for(int i=0; i<origem->linhas; i++) {
+        strcpy(destino->matriz[i], origem->matriz[i]);
+    }
+}
 
 void encontra_posicao(Mapa* m, Posicao* p, char c) {
     for(int i=0; i<m->linhas; i++) {
@@ -12,6 +24,16 @@ void encontra_posicao(Mapa* m, Posicao* p, char c) {
             }
         }
     }
+}
+
+void mover_personagem(Mapa* m, int origem_x, int origem_y, int destino_x, int destino_y) {
+    char personagem = m->matriz[origem_x][origem_y];
+    m->matriz[destino_x][destino_y] = personagem;
+    m->matriz[origem_x][origem_y] = VAZIO;
+}
+
+int verificar_movimento_invalido(Mapa* m, int x, int y) {
+    return x >= m->linhas || y >= m->colunas || m->matriz[x][y] != VAZIO;
 }
 
 void libera_memoria_mapa(Mapa* m) {
