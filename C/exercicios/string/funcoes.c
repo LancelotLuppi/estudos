@@ -13,14 +13,12 @@ int main()
     int cmp = strcmp(teste, ret);
     char * concat = strcat(teste, teste2);
     strcpy(copia, teste);
-    int retChar = strchr(teste, "f");
     
     printf("Substring ocorrida: %s\n", ret);
     printf("Tamanho string Teste: %d\n", len);
     printf("Comparacao: %d\n", cmp);
     printf("Concatenacao: %s\n", concat);
     printf("Copia: %s\n", copia);
-    printf("Primeiro char igual: %d\n", retChar);
 
     return 0;
 }
