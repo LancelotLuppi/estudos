@@ -84,6 +84,69 @@ void insere_ordenado(Node **list, int num) {
 	}
 }
 
+void conta_repetidos(Node **list) {
+	Node *aux, *verificacao = malloc(sizeof(Node));
+	aux = *list;
+	int verificados[100];
+	int inseridos = 0;
+	
+	while(aux->next) {
+		int ocorrencia = 1;
+		int valorVerificado = aux->data;
+		
+		verificacao = aux;
+		while(verificacao->next) {	
+			verificacao = verificacao->next;
+			if(verificacao->data == valorVerificado) {
+				ocorrencia++;
+			}
+			if(verificacao->next == NULL) {
+				int i;
+				int jaExibido = 0;
+				for(i = 0; i<inseridos; i++) {
+					if(verificados[i] == valorVerificado) {
+						jaExibido = 1;
+					}
+				}
+				if((jaExibido != 1 || inseridos == 0) && ocorrencia > 1) {
+					printf("\nO valor %d apareceu %d vezes.\n\n", valorVerificado, ocorrencia);
+					verificados[inseridos] = valorVerificado;
+					inseridos++;
+				}
+			}
+		}
+		aux = aux->next;
+	}
+}
+
+void remocao_repetido(Node **list) {
+	Node *aux, *verificacao, *remover = malloc(sizeof(Node));
+	aux = *list;
+	
+	if(*list) {
+		aux = *list;
+		while(aux->next) {
+			int valor_verificado = aux->data;
+			verificacao = aux;
+			while(verificacao->next) {
+				if(verificacao->next->data == valor_verificado) {
+					remover = verificacao->next;
+					verificacao->next = remover->next;
+				}
+				verificacao = verificacao->next;
+			}
+			aux = aux->next;
+		}
+	}
+	
+	while(aux->next) {
+		int ocorrencia = 1;
+		int valorVerificado = aux->data;
+		
+		aux = aux->next;
+	}
+}
+
 void imprimir(Node *list) {
     printf("\nLista: ");
     while(list) {
@@ -95,15 +158,21 @@ void imprimir(Node *list) {
 
 int main() {
     Node *list = NULL;
+    int posicoes[5];
 
-    //insere_fim(&list, 8);
     insere_inicio(&list, 10);
-    insere_ordenado(&list, 3);
-    insere_fim(&list, 20);
     insere_inicio(&list, 7);
-    insere_ordenado(&list, 50);
-    insere_ordenado(&list, 80);
-    insere_ordenado(&list, 2);
-    insere_ordenado(&list, 12);
+    insere_inicio(&list, 10);
+    insere_inicio(&list, 7);
+    insere_inicio(&list, 6);
+    insere_fim(&list, 12);
+    
+    imprimir(list);
+    
+    conta_repetidos(&list);
+    
+    printf("\n\nRemovendo valores repetidos: \n");
+    remocao_repetido(&list);
+    
     imprimir(list);
 }
